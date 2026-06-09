@@ -174,64 +174,55 @@ for($i=0;$i<(3 - strlen($add_order));$i++){
 												</div>
 
 
-												<div class="col-lg-12">
-													<div class="row">
-														<div class="col-md-5">
-															<label>รายการอะไหล่</label>
-														</div>
-														<div class="col-md-3">
-															<label>ต้นทุน</label>
-														</div>
-														<div class="col-md-3">
-															<label>ราคา</label>
-														</div>
-														<div class="col-md-2 ">
-															<div class="select-box">
-																<input type='button'  class="btn btn-success" aria-label="Left Align" value='+' id='addButton'>
-																<input type='button' class="btn btn-danger" aria-label="Left Align" value='-' id='removeButton'>
-															</div>
-														</div>
-													</div>	
-												</div>
-												<div class="col-lg-12">
-													<div id="row-container">
-
-														<div class="row">
-															<div class="col-md-5">
-																<input type="hidden" name="ser_id" id="ser_id" value="<?=$e['ser_order']?>">
-																<input type="text" class="form-control" placeholder="อะไหล่"  autocomplete="off" id="ser_parts" name="ser_parts[]" value="<?php if($chk_edit == 1){echo $e["ser_parts"];}?>"  required >
-															</div>
-															<div class="col-md-3">
-																<input type="text" class="form-control" placeholder="ต้นทุน" autocomplete="off" id="ser_p_cost" name="ser_p_cost[]" value="<?php if($chk_edit == 1){echo $e["ser_p_cost"];}?>" required>
-															</div>
-															<div class="col-md-3">
-																<input type="text" class="form-control" placeholder="ราคา" autocomplete="off" id="ser_p_price" name="ser_p_price[]" value="<?php if($chk_edit == 1){echo $e["ser_p_price"];}?>" required>
-															</div>
-														</div>
-
-														<?php if($chk_edit == 1){
-															$q_exten=mysqli_query($config,"SELECT * FROM tbl_service_exten WHERE ser_order = '".$e["ser_order"]."' ");
-															while($e3 = mysqli_fetch_array($q_exten)){
-																?>
-																<div class="row">
-																	<input type="hidden" name="exten_id[]" value="<?=$e3['ser_id']?>">
-																	<div class="col-md-5">
-																		<input type="text" class="form-control"  autocomplete="off" name="ser_parts2[]" value="<?php echo $e3["ser_parts"];?>">
-																	</div>
-																	<div class="col-md-3">
-																		<input type="text" class="form-control"  autocomplete="off" name="ser_p_cost2[]" value="<?php echo $e3["ser_p_cost"];?>">
-																	</div>
-																	<div class="col-md-3">
-																		<input type="text" class="form-control"  autocomplete="off" name="ser_p_price2[]" value="<?php echo $e3["ser_p_price"];?>">
-																	</div>
-																</div>
-																<?php
-															}
-														} ?>
-
-													</div>
-
-												</div>                      
+							<div class="col-lg-12">
+								<table class="table table-bordered table-condensed">
+									<thead>
+										<tr>
+											<th>รายการอะไหล่</th>
+											<th style="width:140px">ต้นทุน</th>
+											<th style="width:140px">ราคา</th>
+											<th style="width:90px">
+												<button type="button" class="btn btn-success btn-sm" id="addButton"><span class="glyphicon glyphicon-plus"></span> เพิ่ม</button>
+											</th>
+										</tr>
+									</thead>
+									<tbody id="parts-body">
+										<tr>
+											<td>
+												<input type="hidden" name="ser_id" id="ser_id" value="<?=$e['ser_order']?>">
+												<input type="text" class="form-control" placeholder="อะไหล่" autocomplete="off" name="ser_parts[]" value="<?php if($chk_edit == 1){echo $e['ser_parts'];}?>" required>
+											</td>
+											<td>
+												<input type="text" class="form-control" placeholder="ต้นทุน" autocomplete="off" name="ser_p_cost[]" value="<?php if($chk_edit == 1){echo $e['ser_p_cost'];}?>" required>
+											</td>
+											<td>
+												<input type="text" class="form-control" placeholder="ราคา" autocomplete="off" name="ser_p_price[]" value="<?php if($chk_edit == 1){echo $e['ser_p_price'];}?>" required>
+											</td>
+											<td></td>
+										</tr>
+										<?php if($chk_edit == 1){
+											$q_exten = mysqli_query($config, "SELECT * FROM tbl_service_exten WHERE ser_order = '".$e["ser_order"]."'");
+											while($e3 = mysqli_fetch_array($q_exten)){
+										?>
+										<tr class="ext-row">
+											<td>
+												<input type="hidden" name="exten_id[]" value="<?=$e3['ser_id']?>">
+												<input type="text" class="form-control" autocomplete="off" name="ser_parts2[]" value="<?php echo $e3['ser_parts'];?>">
+											</td>
+											<td>
+												<input type="text" class="form-control" autocomplete="off" name="ser_p_cost2[]" value="<?php echo $e3['ser_p_cost'];?>">
+											</td>
+											<td>
+												<input type="text" class="form-control" autocomplete="off" name="ser_p_price2[]" value="<?php echo $e3['ser_p_price'];?>">
+											</td>
+											<td>
+												<button type="button" class="btn btn-danger btn-sm del-ext-btn" data-id="<?=$e3['ser_id']?>"><span class="glyphicon glyphicon-trash"></span></button>
+											</td>
+										</tr>
+										<?php }} ?>
+									</tbody>
+								</table>
+							</div>
 												<div class="col-lg-12">
 													<div class="row ">
 
@@ -430,19 +421,29 @@ for($i=0;$i<(3 - strlen($add_order));$i++){
               });
 
             //plus text box
-            var rowTemplate = $(
-                '<div class="row added-row">'
-                + '<div class="col-md-5"><input type="text" class="form-control" placeholder="อะไหล่" autocomplete="off" name="ser_parts[]"></div>'
-                + '<div class="col-md-3"><input type="text" class="form-control" placeholder="ต้นทุน" autocomplete="off" name="ser_p_cost[]"></div>'
-                + '<div class="col-md-3"><input type="text" class="form-control" placeholder="ราคา" autocomplete="off" name="ser_p_price[]"></div>'
-                + '</div>'
-            );
             $('#addButton').click(function(){
-                $('#row-container').append(rowTemplate.clone());
+                var newRow = '<tr class="new-row">'
+                    + '<td><input type="text" class="form-control" placeholder="อะไหล่" autocomplete="off" name="ser_parts[]"></td>'
+                    + '<td><input type="text" class="form-control" placeholder="ต้นทุน" autocomplete="off" name="ser_p_cost[]"></td>'
+                    + '<td><input type="text" class="form-control" placeholder="ราคา" autocomplete="off" name="ser_p_price[]"></td>'
+                    + '<td><button type="button" class="btn btn-danger btn-sm remove-row"><span class="glyphicon glyphicon-minus"></span></button></td>'
+                    + '</tr>';
+                $('#parts-body').append(newRow);
             });
-            $('#removeButton').click(function(){
-                var added = $('#row-container .added-row');
-                if (added.length > 0) { added.last().remove(); }
+            $(document).on('click', '.remove-row', function(){
+                $(this).closest('tr').remove();
+            });
+            $(document).on('click', '.del-ext-btn', function(){
+                var extId = $(this).data('id');
+                var $row = $(this).closest('tr');
+                if(confirm('ลบรายการนี้?')){
+                    $.ajax({
+                        url: 'addservice.php',
+                        type: 'post',
+                        data: { del_ext: extId },
+                        success: function(){ $row.remove(); }
+                    });
+                }
             });
 
             var car = <?php print json_encode($rows);?>;

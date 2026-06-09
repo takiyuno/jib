@@ -5,6 +5,14 @@
 				 die();
 		 }
 	
+
+	 // Handle AJAX delete of extension row
+	 if (isset($_POST['del_ext'])) {
+		 $ext_id = (int)$_POST['del_ext'];
+		 mysqli_query($config, "DELETE FROM tbl_service_exten WHERE ser_id = '$ext_id'");
+		 echo 1;
+		 die();
+	 }
 		 if ($_POST["do_what"] == "edit") {
 				$id = $_GET["edit"];
 			}else if ($_POST["do_what"] == "insert") {
