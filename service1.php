@@ -208,43 +208,37 @@
 													<div id="row-container">
 
 														<div class="row">
-
 															<div class="col-md-5">
 																<input type="hidden" name="ser_id" id="ser_id" value="<?=$e['ser_order']?>">
-																<input type="text" class="form-control" placeholder="อะไหล่"  autocomplete="off" id="ser_parts" name="ser_parts[]" value="<?php if($chk_edit == 1){echo $e["ser_parts"];}?>"  required >
+															<input type="text" class="form-control" placeholder="อะไหล่"  autocomplete="off" id="ser_parts" name="ser_parts[]" value="<?php if($chk_edit == 1){echo $e["ser_parts"];}?>"  required >
 															</div>
 															<div class="col-md-3">
-																
 																<input type="text" class="form-control" placeholder="ต้นทุน" autocomplete="off" id="ser_p_cost" name="ser_p_cost[]" value="<?php if($chk_edit == 1){echo $e["ser_p_cost"];}?>" required>
 															</div>
 															<div class="col-md-3">
-																
 																<input type="text" class="form-control" placeholder="ราคา" autocomplete="off" id="ser_p_price" name="ser_p_price[]" value="<?php if($chk_edit == 1){echo $e["ser_p_price"];}?>" required>
 															</div>
-														
-													<?php if($chk_edit == 1){ 
-														$q_exten=mysqli_query($config,"SELECT * FROM tbl_service_exten WHERE ser_order = '".$e["ser_order"]."' ");
+														</div>
+
+														<?php if($chk_edit == 1){
+															$q_exten=mysqli_query($config,"SELECT * FROM tbl_service_exten WHERE ser_order = '".$e["ser_order"]."' ");
 															while($e3 = mysqli_fetch_array($q_exten)){
-
-
-														?>
-														<input type="hidden" name="exten_id[]" value="<?=$e3['ser_id']?>">
-														<div class="col-md-5">
-														
-														<input type="text" class="form-control"  autocomplete="off" id="ser_parts2" name="ser_parts2[]" value="<?php if($chk_edit == 1){echo $e3["ser_parts"];}?>">
-													</div>
-													<div class="col-md-3">
-														
-														<input type="text" class="form-control"  autocomplete="off" id="ser_p_cost2" name="ser_p_cost2[]" value="<?php if($chk_edit == 1){echo $e3["ser_p_cost"];}?>">
-													</div>
-													<div class="col-md-3">
-														
-														<input type="text" class="form-control"  autocomplete="off" id="ser_p_price2" name="ser_p_price2[]" value="<?php if($chk_edit == 1){echo $e3["ser_p_price"];}?>">
-													</div>
-													<?php 
-												}
-												} ?>
-													</div>
+																?>
+																<div class="row">
+																	<input type="hidden" name="exten_id[]" value="<?=$e3['ser_id']?>">
+																	<div class="col-md-5">
+																		<input type="text" class="form-control"  autocomplete="off" name="ser_parts2[]" value="<?php echo $e3["ser_parts"];?>">
+																	</div>
+																	<div class="col-md-3">
+																		<input type="text" class="form-control"  autocomplete="off" name="ser_p_cost2[]" value="<?php echo $e3["ser_p_cost"];?>">
+																	</div>
+																	<div class="col-md-3">
+																		<input type="text" class="form-control"  autocomplete="off" name="ser_p_price2[]" value="<?php echo $e3["ser_p_price"];?>">
+																	</div>
+																</div>
+																<?php
+															}
+														} ?>
 													
 												</div>
 												
@@ -447,14 +441,21 @@
 
             });
 
-            //plus text box
-            var row = $('#row-container .row:eq(0)').clone();
-				$('#addButton').data('row',row);
-				$('#addButton').click(function(){
-				  $('#row-container').append($(this).data('row').clone());
-				});
-				$('#removeButton').click(function(){
-				  $('#row-container .row').eq(  $('#row-container .row').length-1 ).remove();
+                        //plus text box
+            var rowTemplate = $(
+                '<div class="row added-row">'
+                + '<div class="col-md-5"><input type="text" class="form-control" placeholder="อะไหล่" autocomplete="off" name="ser_parts[]"></div>'
+                + '<div class="col-md-3"><input type="text" class="form-control" placeholder="ต้นทุน" autocomplete="off" name="ser_p_cost[]"></div>'
+                + '<div class="col-md-3"><input type="text" class="form-control" placeholder="ราคา" autocomplete="off" name="ser_p_price[]"></div>'
+                + '</div>'
+            );
+            $('#addButton').click(function(){
+                $('#row-container').append(rowTemplate.clone());
+            });
+            $('#removeButton').click(function(){
+                var added = $('#row-container .added-row');
+                if (added.length > 0) { added.last().remove(); }
+            });
 				});
        
 			var car = <?php print json_encode($rows);?>;
