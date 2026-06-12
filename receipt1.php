@@ -321,7 +321,7 @@
 					    <td colspan="2"><?php echo $ex_rs['ser_parts'];?></td>
 					    <td><div align="right"><?php echo number_format($ex_rs['ser_p_price'],2);?></div></td>
 					  </tr>
-						<?
+						<?php
 							$total = $total+$ex_rs['ser_p_price'];
 						 }?>
 					  <tr>
