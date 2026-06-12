@@ -420,30 +420,33 @@ for($i=0;$i<(3 - strlen($add_order));$i++){
 
               });
 
-            //plus text box
-            $('#addButton').click(function(){
-                var newRow = '<tr class="new-row">'
-                    + '<td><input type="text" class="form-control" placeholder="อะไหล่" autocomplete="off" name="ser_parts[]"></td>'
-                    + '<td><input type="text" class="form-control" placeholder="ต้นทุน" autocomplete="off" name="ser_p_cost[]"></td>'
-                    + '<td><input type="text" class="form-control" placeholder="ราคา" autocomplete="off" name="ser_p_price[]"></td>'
-                    + '<td><button type="button" class="btn btn-danger btn-sm remove-row"><span class="glyphicon glyphicon-minus"></span></button></td>'
-                    + '</tr>';
-                $('#parts-body').append(newRow);
-            });
-            $(document).on('click', '.remove-row', function(){
-                $(this).closest('tr').remove();
-            });
-            $(document).on('click', '.del-ext-btn', function(){
-                var extId = $(this).data('id');
-                var $row = $(this).closest('tr');
-                if(confirm('ลบรายการนี้?')){
-                    $.ajax({
-                        url: 'addservice.php',
-                        type: 'post',
-                        data: { del_ext: extId },
-                        success: function(){ $row.remove(); }
-                    });
-                }
+            $(document).ready(function(){
+                //plus text box
+                $('#addButton').on('click', function(){
+                    var $firstRow = $('#parts-body tr:first');
+                    var newRow = '<tr class="new-row">'
+                        + '<td><input type="text" class="form-control" placeholder="อะไหล่" autocomplete="off" name="ser_parts[]"></td>'
+                        + '<td><input type="text" class="form-control" placeholder="ต้นทุน" autocomplete="off" name="ser_p_cost[]"></td>'
+                        + '<td><input type="text" class="form-control" placeholder="ราคา" autocomplete="off" name="ser_p_price[]"></td>'
+                        + '<td><button type="button" class="btn btn-danger btn-sm remove-row"><span class="glyphicon glyphicon-minus"></span></button></td>'
+                        + '</tr>';
+                    $('#parts-body').append(newRow);
+                });
+                $(document).on('click', '.remove-row', function(){
+                    $(this).closest('tr').remove();
+                });
+                $(document).on('click', '.del-ext-btn', function(){
+                    var extId = $(this).data('id');
+                    var $row = $(this).closest('tr');
+                    if(confirm('ลบรายการนี้?')){
+                        $.ajax({
+                            url: 'addservice.php',
+                            type: 'post',
+                            data: { del_ext: extId },
+                            success: function(){ $row.remove(); }
+                        });
+                    }
+                });
             });
 
             var car = <?php print json_encode($rows);?>;

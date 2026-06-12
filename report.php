@@ -185,9 +185,9 @@
 											<td>
 												<?php echo ($p["ser_p_price"]+$f['price_ext']);?>
 											</td>
-											<td style="text-align:center;">
-												<a href="receipt.php?ser_id=<?=$p["ser_id"];?>" ><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>&nbsp;
-												
+											<td style="text-align:center; white-space:nowrap;">
+												<a href="receipt1.php?ser_id=<?=$p["ser_id"];?>" class="btn btn-xs btn-info" title="ดูรายละเอียด"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> ดูรายละเอียด</a>&nbsp;
+												<a href="receipt.php?ser_id=<?=$p["ser_id"];?>" class="btn btn-xs btn-warning" title="Print Invoice" target="_blank"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</a>
 											</td>
 										</tr>
 									</tbody>
