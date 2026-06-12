@@ -320,7 +320,7 @@ for($i=0;$i<(3 - strlen($add_order));$i++){
 													<tbody>
 														<?php
 
-														$q = mysqli_query($config,"SELECT * FROM tbl_service WHERE  ad_type='".$_SESSION['ad_type']."' GROUP BY date_create desc");
+														$q = mysqli_query($config,"SELECT * FROM tbl_service WHERE ad_type='".$_SESSION['ad_type']."' ORDER BY date_create DESC");
 
 														$count = 0;
 

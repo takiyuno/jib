@@ -25,6 +25,9 @@
 		<link rel="stylesheet" href="js/yearpicker.css">
 		<style type="text/css" class="init">
 		</style>
+		<style>
+			@media print { nav, [style*="padding:10px"] { display:none !important; } }
+		</style>
 		<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
 
 		<style type="text/css">
@@ -67,7 +70,7 @@
 
 		
 	</head>
-	<body onload="window.print();">
+	<body>
 		<nav class="navbar navbar-inverse">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
@@ -96,7 +99,15 @@
 		    </div>
 		  </div>
 		</nav>
-			
+
+		<div style="padding:10px 20px;">
+			<a href="report.php" class="btn btn-default">
+				<span class="glyphicon glyphicon-arrow-left"></span> กลับ
+			</a>
+			<button class="btn btn-primary" onclick="window.print();" style="margin-left:8px;">
+				<span class="glyphicon glyphicon-print"></span> Print
+			</button>
+		</div>
 		<div id="">
 			
 			<?php

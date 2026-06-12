@@ -73,7 +73,7 @@
     <button class="btn btn-primary" onclick="window.print();">
       <span class="glyphicon glyphicon-print"></span> Print Invoice
     </button>
-    <a href="javascript:history.back()" class="btn btn-default" style="margin-left:8px;">
+    <a href="report.php" class="btn btn-default" style="margin-left:8px;">
       <span class="glyphicon glyphicon-arrow-left"></span> กลับ
     </a>
   </div>
