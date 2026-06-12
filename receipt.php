@@ -31,10 +31,15 @@
   <link rel="stylesheet" href="css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="css/AdminLTE.min.css">
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+    }
+  </style>
 
 </head>
-<body onload="window.print();">
-<nav class="navbar navbar-inverse">
+<body>
+<nav class="navbar navbar-inverse no-print">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
 		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -64,6 +69,14 @@
 		</nav>
 
 <div class="wrapper">
+  <div class="no-print" style="padding:10px 20px;">
+    <button class="btn btn-primary" onclick="window.print();">
+      <span class="glyphicon glyphicon-print"></span> Print Invoice
+    </button>
+    <a href="javascript:history.back()" class="btn btn-default" style="margin-left:8px;">
+      <span class="glyphicon glyphicon-arrow-left"></span> กลับ
+    </a>
+  </div>
   <!-- Main content -->
   <section class="invoice">
   	<?php

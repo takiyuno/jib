@@ -94,10 +94,15 @@ for($i=0;$i<(3 - strlen($add_order));$i++){
 		<?php
 		if(isset($_GET["edit"])){
 			$chk_edit = 1;
+			$show_form = true;
 			$e = mysqli_fetch_array(mysqli_query($config,"SELECT * FROM tbl_service WHERE ser_id = '".$_GET["edit"]."' AND ad_type='".$_SESSION['ad_type']."'"));
 			$e2 = mysqli_fetch_array(mysqli_query($config,"SELECT * FROM tbl_cardetail WHERE car_regis = '".$e['ser_idcar']."' AND ad_type='".$_SESSION['ad_type']."' "));
+		}elseif(isset($_GET["add"])){
+			$chk_edit = 0;
+			$show_form = true;
 		}else{
 			$chk_edit = 0;
+			$show_form = false;
 		}
 		?>
 		<div id="page-content-wrapper">
@@ -111,15 +116,20 @@ for($i=0;$i<(3 - strlen($add_order));$i++){
 							</div>
 							
 							<div class="col-3 float-right">
-								<a href="service.php"><button type="button" class="btn btn-primary" >+เพิ่มรายการซ่อม</button></a>
+								<?php if($show_form): ?>
+									<a href="service.php" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> กลับรายการ</a>
+								<?php else: ?>
+									<a href="service.php?add=1" class="btn btn-primary">+ เพิ่มรายการซ่อม</a>
+								<?php endif; ?>
 							</div>
 						</div>
 						<br/>
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<div class="row">
-									<div class="col-6">
-										
+									<?php if($show_form): ?>
+									<div class="col-12">
+
 										<form method="POST" action="addservice.php" enctype="multipart/form-data">
 											<div class="row">
 												<div class="col-6">
@@ -282,10 +292,10 @@ for($i=0;$i<(3 - strlen($add_order));$i++){
 												</form>
 												<form method="POST" id="frm2">
 												</form>
-												
-											</div>
 
-											<div class="col-6">
+											</div>
+									<?php else: ?>
+									<div class="col-12">
 
 												<table id="table-result" class="display table table-bordered">
 													<thead>
@@ -343,7 +353,7 @@ for($i=0;$i<(3 - strlen($add_order));$i++){
 													</tbody>
 												</table>
 											</div>
-										</div>
+									<?php endif; ?>
 									</div>
 								</div>
 							</div>
