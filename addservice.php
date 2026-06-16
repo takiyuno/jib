@@ -1,4 +1,5 @@
- <?php 
+<?php 
+ob_start();
 	include("config.php"); 
 	include("resize.php"); 
 		 if(isset($_SESSION["login"]) != true){
@@ -21,7 +22,7 @@
 			$total = count($_FILES['image']['name']);
 
 		
-		$id_Car='';	
+		$id_Car = !empty($_POST['car_id']) ? $_POST['car_id'] : '';
 		if($_POST['car_id']=="" && $_POST['ser_idcar']!=""){
 		 		
 		 		$insertCar = "INSERT INTO tbl_cardetail SET   car_regis='".$_POST['ser_idcar']."',
@@ -101,6 +102,7 @@
 					ImageDestroy($images_fin);
 				}
 			}
+				ob_end_clean();
 				header("Location: service.php");
 				exit();
 			}
@@ -205,7 +207,8 @@
 				mysqli_query($config,$q2)or die (mysqli_error($config));
 				
 				}
-			header("Location: service.php");
+			ob_end_clean();
+				header("Location: service.php");
 				exit();
 			}
 		
