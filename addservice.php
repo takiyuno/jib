@@ -14,7 +14,7 @@
 		 die();
 	 }
 		 if ($_POST["do_what"] == "edit") {
-				$id = $_GET["edit"];
+				$id = $_GET["edit"] ?? '';
 			}else if ($_POST["do_what"] == "insert") {
 
 		 	 $fileImg="";
@@ -133,6 +133,7 @@
                          
 		 	}
 		 		
+		 	$fileImg2 = '';
 		 	if(!empty($_FILES['image']['tmp_name'][0])){
 		 		 $fileImg2="";
 			 $total = count($_FILES['image']['name']);
@@ -198,7 +199,7 @@
 				mysqli_query($config,$i_ex_ser)or die(mysqli_error($config));
 			}
 
-				for($i=0;$i<count($_POST['exten_id']);$i++){
+				for($i=0;$i<count($_POST['exten_id'] ?? []);$i++){
 					$q2="UPDATE tbl_service_exten SET ser_idcar = '".$_POST['ser_idcar']."' ,
 				ser_order = '".$_POST['ser_order']."' ,
 				ser_date = '".$_POST['ser_date']."' ,
