@@ -63,10 +63,11 @@
 			
 		 	
 			
-			for( $i=0 ; $i < $total ; $i++ ) {
+			if(!empty($_FILES['image']['tmp_name'][0])){
+				for( $i=0 ; $i < $total ; $i++ ) {
 				  $fileImg .= $_FILES['image']['name'][$i].",";
-
 				}
+			}
 
 			$i_ser = "INSERT INTO tbl_service SET   ser_idcar='".$_POST['ser_idcar']."',
     ser_order='".$_POST['ser_order']."', ser_parts='".$_POST['ser_parts'][0]."',   ser_p_price='".$_POST['ser_p_price'][0]."',ser_p_cost='".$_POST['ser_p_cost'][0]."', ser_detail='".$_POST['ser_detail']."', ser_date='".$_POST['ser_date']."', ser_pic ='".$fileImg."' , ad_type='".$_SESSION['ad_type']."', date_create=NOW(), date_update=NOW() ";
@@ -83,11 +84,11 @@
 
 				mysqli_query($config,$up_order);
 		 		
+			if(!empty($_FILES['image']['tmp_name'][0])){
 				for( $i=0 ; $i < $total ; $i++ ) {
 					$images = $_FILES["image"]["tmp_name"][$i];
 					$new_images = $_FILES["image"]["name"][$i];
-					//copy($_FILES["image"]["tmp_name"][$i],"./img/".iconv("UTF-8","TIS-620",$_POST['ser_idcar'])."/service/".$_FILES["image"]["name"][$i]);
-					$width=500; //*** Fix Width & Heigh (Autu caculate) ***//
+					$width=500;
 					$size=GetimageSize($images);
 					$height=round($width*$size[1]/$size[0]);
 					$images_orig = ImageCreateFromJPEG($images);
@@ -98,20 +99,10 @@
 					ImageJPEG($images_fin,"img/".$id_Car."/service/".$new_images);
 					ImageDestroy($images_orig);
 					ImageDestroy($images_fin);
- 
-
-				  // $tmpFilePath = $_FILES['image']['tmp_name'][$i];
-
-				  // if ($tmpFilePath != ""){
-				   
-				  //   $newFilePath = "./img/".iconv("UTF-8","TIS-620",$_POST['ser_idcar'])."/service/" . $_FILES['image']['name'][$i];
-
-				  //   if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-
-				  //   }
-				  // }
 				}
+			}
 				header("Location: service.php");
+				exit();
 			}
 
 
