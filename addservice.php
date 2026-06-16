@@ -133,7 +133,7 @@
                          
 		 	}
 		 		
-		 	if($_FILES['image']['name']!=""){
+		 	if(!empty($_FILES['image']['tmp_name'][0])){
 		 		 $fileImg2="";
 			 $total = count($_FILES['image']['name']);
 			
@@ -214,6 +214,7 @@
 				
 				}
 			header("Location: service.php");
+				exit();
 			}
 		
 	
