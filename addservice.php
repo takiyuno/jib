@@ -51,7 +51,7 @@ ob_start();
 		 $sql = "SELECT * FROM tbl_order WHERE id =1 ";
 			$query = mysqli_query($config,$sql) or die("<pre>$sql</pre>".mysqli_error($config));
 			$result = mysqli_fetch_assoc($query);
-			$last_order = $result['order'];
+			$last_order = $result['ser_order'];
 			$add_order = ($last_order + 1);
 			$zero = "";
 			for($i=0;$i<(3 - strlen($add_order));$i++){
@@ -86,6 +86,10 @@ ob_start();
 				mysqli_query($config,$up_order);
 		 		
 			if(!empty($_FILES['image']['tmp_name'][0])){
+				$structure2 = 'img/'.$id_Car.'/service';
+				if(!is_dir($structure2)){
+					mkdir($structure2, 0777, true);
+				}
 				for( $i=0 ; $i < $total ; $i++ ) {
 					$images = $_FILES["image"]["tmp_name"][$i];
 					$new_images = $_FILES["image"]["name"][$i];
@@ -178,9 +182,10 @@ ob_start();
 				ser_date = '".$_POST['ser_date']."' ,
 				ser_parts = '".$_POST['ser_parts'][0]."' ,
 				ser_p_price = '".$_POST['ser_p_price'][0]."' ,
+				ser_p_cost = '".$_POST['ser_p_cost'][0]."' ,
 				ser_detail = '".$_POST['ser_detail']."' ,
 				ser_pic = '".$f_img."' ,
-				date_update = NOW()   
+				date_update = NOW()
 
 				WHERE ser_id ='".$_POST['h_data_id']."' ";
 				
@@ -214,9 +219,15 @@ ob_start();
 		
 	
 		 if (isset($_GET["del"])) {
-				 mysqli_query($config,"DELETE FROM tbl_service WHERE ser_id = '".$_GET["del"]."' ");
+				 $del_id = (int)$_GET["del"];
+				 $del_row = mysqli_fetch_assoc(mysqli_query($config,"SELECT ser_order FROM tbl_service WHERE ser_id = '$del_id'"));
+				 mysqli_query($config,"DELETE FROM tbl_service WHERE ser_id = '$del_id'");
+				 if($del_row) {
+				 	mysqli_query($config,"DELETE FROM tbl_service_exten WHERE ser_order = '".$del_row['ser_order']."'");
+				 }
+				 ob_end_clean();
 				 header("Location: service.php");
-	
+				 exit();
 		 }
 
 		 //order id
@@ -225,7 +236,7 @@ ob_start();
 		 $sql = "SELECT * FROM tbl_order WHERE id =1 ";
 			$query = mysqli_query($config,$sql) or die("<pre>$sql</pre>".mysqli_error($config));
 			$result = mysqli_fetch_assoc($query);
-			$last_order = $result['order'];
+			$last_order = $result['ser_order'];
 			$add_order = ($last_order + 1);
 			$zero = "";
 			for($i=0;$i<(3 - strlen($add_order));$i++){
